@@ -1,0 +1,14 @@
+name: test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    if: startsWith(github.head_ref, 'dev') == false
+    uses: surface-security/scanner-go-entrypoint/.github/workflows/build-n-push.yml@v0.2.0
+    with:
+      push: false
+      tags: x
