@@ -5,6 +5,9 @@ on:
     branches:
     - main
 
+permissions:
+  packages: write
+ 
 jobs:
   publish:
     uses: surface-security/scanner-go-entrypoint/.github/workflows/build-n-push.yml@v0.2.0
