@@ -28,7 +28,7 @@ func main() {
 
 	err = s.Exec(
 		"-silent", "-no-fallback", "-pipeline", "-tech-detect",
-		"-json", "-o", file.Name(),
+		"-json", "-output", file.Name(),
 		"-l", options.Input,
 	)
 	if err != nil {

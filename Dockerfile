@@ -1,4 +1,6 @@
-ARG SCANNER_VERSION=1.2.9
+ARG SCANNER_VERSION=1.2.9-ppb1
+# ARG DOWNLOAD_URL_PREFIX=https://github.com/projectdiscovery/httpx/releases/download
+ARG DOWNLOAD_URL_PREFIX=https://github.com/surface-security/httpx/releases/download
 ARG BASE=alpine:3.15
 
 #### scanner-builder
@@ -18,16 +20,18 @@ RUN go build -o /scan -ldflags="-s -w" .
 #### scanner-binary
 FROM ${BASE} as binary-amd64
 ARG SCANNER_VERSION
-
-ADD https://github.com/projectdiscovery/httpx/releases/download/v${SCANNER_VERSION}/httpx_${SCANNER_VERSION}_linux_amd64.zip /scanner.zip
+ARG DOWNLOAD_URL_PREFIX
+ADD ${DOWNLOAD_URL_PREFIX}/v${SCANNER_VERSION}/httpx_${SCANNER_VERSION}_linux_amd64.zip /scanner.zip
 
 FROM ${BASE} as binary-armv7
 ARG SCANNER_VERSION
-ADD https://github.com/projectdiscovery/httpx/releases/download/v${SCANNER_VERSION}/httpx_${SCANNER_VERSION}_linux_armv6.zip /scanner.zip
+ARG DOWNLOAD_URL_PREFIX
+ADD ${DOWNLOAD_URL_PREFIX}/v${SCANNER_VERSION}/httpx_${SCANNER_VERSION}_linux_armv6.zip /scanner.zip
 
 FROM ${BASE} as binary-arm64
 ARG SCANNER_VERSION
-ADD https://github.com/projectdiscovery/httpx/releases/download/v${SCANNER_VERSION}/httpx_${SCANNER_VERSION}_linux_arm64.zip /scanner.zip
+ARG DOWNLOAD_URL_PREFIX
+ADD ${DOWNLOAD_URL_PREFIX}/v${SCANNER_VERSION}/httpx_${SCANNER_VERSION}_linux_arm64.zip /scanner.zip
 
 FROM binary-${TARGETARCH}${TARGETVARIANT} as binary
 RUN unzip /scanner.zip
